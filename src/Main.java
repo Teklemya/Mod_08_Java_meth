@@ -1,41 +1,294 @@
-public class Main
-{
-    public static void main(String[] args)
-    {
-        sayHello();
+import java.util.Scanner;
 
-        sayHello(2);
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
 
-        sayMsg("Damn Yishak!", 3);
+       /* sayHello();
 
-        int favNum = 7;
-        
+        sayHello(13);
+
+        sayMsg("Damn it Jacob!", 35);
+
+
+        int favNum = 18;
+
         int doubledInt = doubleIt(favNum);
 
-        System.out.println("Doubled is: " + doubledInt);
+        System.out.println("Double is: " + doubledInt + ".");
+
+
+        int favNum = SafeInput.getRangedInt(in, "Enter your favorite number", 1, 100);
+
+        double salary = getDouble(in, "Enter your salary");
+        System.out.println("Your salary is " + salary + ".");
+
+        String  fName = getNonZeroLengthString(in,"Enter a non zero length string like your name");
+        System.out.println("Hello " +fName + ".");
+
+        // System.out.println("You said your fav num is " + getRangedInt(in,"Enter your favorite number", 1, 100)+ ".");
+
+        String ssn = getRegExString(in, "Enter your SSN ###-##-####", "\\d{3}-\\d{2}-\\d{4}");
+        System.out.println("Your ssn is " +ssn + ".");
+
+        */
+        boolean isRaining = getYNConfirm(in, "Is it raining");
+        System.out.print("You said it was raining" + isRaining);
+        String ssn = getRegExString(in, "Enter your ssn", "\\d{3}-\\d{2}-\\d{4}");
+        System.out.println("Your ssn: " + ssn);
     }
 
-    // user define static methods go here - after the main
-    public static void sayHello()
-       {
-        System.out.println("Hello!");
-       }
-    public static void sayHello(int times)
-    {
-        for(int i = 0; i <= times; i++)
+
+    public static void sayHello() {
         System.out.println("Hello!");
     }
-    public static void sayMsg(String msg, int times)
-    {
-        for(int i = 0; i <= times; i++)
-            System.out.println("msg");
+
+    public static void sayHello(int times) {
+        for (int i = 0; i <= times; i++)
+            System.out.println("Hello!");
     }
-    public static int doubleIt(int num)
-    {
+
+    public static void sayMsg(String msg, int times) {
+        for (int i = 0; i <= times; i++)
+            System.out.println(msg);
+    }
+
+    public static int doubleIt(int num) {
         int retVal = 0;
+
         retVal = num * 2;
 
         return retVal;
-
     }
+
+    /**
+     * Return a user supplied int with the specified range
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @param low    The lower bound for the range of valid values
+     * @param high   The higher bound for the range of valid values
+     * @return An integer within the range
+     */
+    public static int getRangedInt(Scanner pipe, String prompt, int low, int high) {
+        int retVal = 0;
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + "[" + low + "-" + high + "] : ");
+            if (pipe.hasNextInt()) {
+                retVal = pipe.nextInt();
+                pipe.nextLine();
+                if (retVal >= low && retVal <= high) {
+                    System.out.println("\nYou said your ret Val is " + retVal + ".");
+                    done = true;
+                } else {
+                    System.out.println("You said your ret Val is " + retVal + " but that is out out of range[" + low + "-" + high + "]");
+
+                }
+
+            } else {
+                trash = pipe.nextLine();
+                System.out.println("You must enter an integer not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * Return a user supplied int
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @return An arbitrary int within the range
+     */
+    public static int getInt(Scanner pipe, String prompt) {
+        int retVal = 0;
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + " : ");
+            if (pipe.hasNextInt()) {
+                retVal = pipe.nextInt();
+                pipe.nextLine();
+                System.out.println("\nYou said your ret Val is " + retVal + ".");
+                done = true;
+
+            } else {
+                trash = pipe.nextLine();
+                System.out.println("You must enter an integer not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * Return a user supplied double
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @return An arbitrary double within the range
+     */
+    public static double getDouble(Scanner pipe, String prompt) {
+        double retVal = 0;
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + " : ");
+            if (pipe.hasNextDouble()) {
+                retVal = pipe.nextDouble();
+                pipe.nextLine();
+                System.out.println("\nYou said your ret Val is " + retVal + ".");
+                done = true;
+
+            } else {
+                trash = pipe.nextLine();
+                System.out.println("You must enter an integer not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * Return a user supplied double with the specified range
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @param low    The lower bound for the range of valid values
+     * @param high   The higher bound for the range of valid values
+     * @return An arbritrary double within the range
+     */
+    public static double getRangedDouble(Scanner pipe, String prompt, double low, double high) {
+        double retVal = 0;
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + "[" + low + "-" + high + "] : ");
+            if (pipe.hasNextDouble()) {
+                retVal = pipe.nextDouble();
+                pipe.nextLine();
+                if (retVal >= low && retVal <= high) {
+                    System.out.println("You said your ret Val is " + retVal + ".");
+                    done = true;
+                } else {
+                    System.out.println("You said your ret Val is " + retVal + " but that is out out of range[" + low + "-" + high + "]");
+
+                }
+
+            } else {
+                trash = pipe.nextLine();
+                System.out.println("You must enter an integer not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * get a string with at least one character
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @return A String that's at least one character
+     */
+    public static String getNonZeroLengthString(Scanner pipe, String prompt) {
+        String retVal = "";
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + ": ");
+            retVal = pipe.nextLine();
+            if (retVal.length() != 0) {
+
+                done = true;
+
+            } else // you have a zero length string
+            {
+
+                System.out.println("You must enter at least one character not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * get a string that matches a Regular Expression pattern like ###-##-#### \d{3}-\{2}-\d{4}
+     *
+     * @param pipe   The Scanner instance to use for the console input
+     * @param prompt A String that tell the user what to input
+     * @return A String that's at least one character
+     */
+
+    public static String getRegExString(Scanner pipe, String prompt, String pattern) {
+        String retVal = "";
+        boolean done = false;
+        String trash = "";
+
+        do {
+
+            System.out.print(prompt + ": ");
+            retVal = pipe.nextLine();
+            if (retVal.matches(pattern)) {
+
+                done = true;
+
+            } else // you have a zero length string
+            {
+
+                System.out.println("What you entered does not match the pattern, not " + trash + ".");
+            }
+
+        } while (!done);
+
+        return retVal;
+    }
+
+    /**
+     * Takes a Y or N and return true or flase respecitively
+     *
+     * @param pipe   Scanner ot use for console input
+     * @param prompt String ght indicates what to input
+     * @return a boolean true or false
+     */
+    public static boolean getYNConfirm(Scanner pipe, String prompt) {
+        boolean retVal = false;
+        boolean done = false;
+        String inputYN = "";
+        do {
+            System.out.print(prompt + "[Y/N]:");
+            inputYN = pipe.nextLine();
+            if (inputYN.equalsIgnoreCase("Y")) {
+                done = true;
+                retVal = true;
+            } else if (inputYN.equalsIgnoreCase("N")) {
+                done = true;
+                retVal = false;
+            } else {
+                System.out.println("You must enter Y or N");
+            }
+        } while (!done);
+
+        return retVal;
+    }
+
+
 }
